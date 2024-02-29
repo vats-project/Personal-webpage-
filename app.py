@@ -59,7 +59,7 @@ st.sidebar.markdown(
     """
     , unsafe_allow_html=True
 )
-# st.sidebar.image("my.jpg", use_column_width=True)
+st.sidebar.image("my.jpg", use_column_width=True)
 
 #this diff
 st.sidebar.markdown(
@@ -133,6 +133,9 @@ st.markdown(
 # Assuming 'option' is your variable from the sidebar selection
 if option == "Personal Information":
     st.header("Personal Information")
+    st.write("Name: Vats Bhaveshbhai Balar")
+    st.write("DOB: 22/11/2002")
+    
     st.write("Location: Surat, Gujrat")
     st.write("Contact No: +91 8306662624")
     st.write("Gmail: balarvats3@gmail.com")
