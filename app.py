@@ -1,13 +1,4 @@
 import streamlit as st
-import pandas as pd  # Add this import statement
-
-# Options in the sidebar for navigation
-option = st.sidebar.selectbox(
-    "Select an option", 
-    ["Personal Information", "Education", "My Certificates", "Projects", "Skills"]
-)
-
-import streamlit as st
 import pandas as pd
 
 # Set page title
@@ -61,8 +52,8 @@ st.sidebar.markdown(
             width: 100px;
             height: px;
             object-fit: cover;
-            border: 3px solid #FFD700;
-            box-shadow: 0 4px 8px 0 rgba(255, 215, 0, 0.2), 0 6px 20px 0 rgba(255, 215, 0, 0.19);
+            # border: 3px solid #FFD700;
+            # box-shadow: 0 4px 8px 0 rgba(255, 215, 0, 0.2), 0 6px 20px 0 rgba(255, 215, 0, 0.19);
         }
     </style>
     """
@@ -105,7 +96,7 @@ st.sidebar.markdown(
 )
 
 
-st.subheader("Welcome to my personal webpage")
+st.subheader("Welcome to my personal Dashboard")
 
 #this diff
 # Options in the sidebar for navigation
@@ -171,10 +162,10 @@ if option == "Personal Information":
             <div style="margin-top: 10px;">
                 <p><strong>Social Media Accounts:</strong></p>
                 <ul style="list-style-type: none; padding-left: 0;">
-                    <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/vatsbalar/" target="_blank">Your LinkedIn Profile</a></li>
-                    <li><strong>GitHub:</strong> <a href="https://github.com/vatsbalar22" target="_blank">Your GitHub Profile</a></li>
-                    <li><strong>Instagram:</strong> <a href="https://www.instagram.com/l_______.b.a.l.a.r._______l/" target="_blank">Your Instagram Profile</a></li>
-                    <li><strong>Snapchat:</strong>vats_balar</li>
+                    <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/vatsbalar/" target="_blank">LinkedIn Profile</a></li>
+                    <li><strong>GitHub:</strong> <a href="https://github.com/vatsbalar22" target="_blank">GitHub Profile</a></li>
+                    <li><strong>Instagram:</strong> <a href="https://www.instagram.com/l_______.b.a.l.a.r._______l/" target="_blank">Instagram Profile</a></li>
+                    <li><strong>Snapchat:</strong><a href="https://www.snapchat.com/add/vats_balar?share_id=zRzTvRKM7t0&locale=en-IN" target="_blank">Snapchat Profile</a></li>
                 </ul>
             </div>
         </div>
@@ -222,7 +213,7 @@ elif option == "Education":
                 box-shadow: 0 4px 8px rgba(255, 255, 255, 0.4); /* White shadow */
             }
             .education-container h3 {
-                color: #FFD700; /* Gold color for subheaders */
+                color: #FAEA4E; /* Gold color for subheaders */
             }
         </style>
         """, unsafe_allow_html=True
@@ -394,47 +385,93 @@ elif option == "Skills":
     st.header("Skills")
 
     skills_data = [
-        {"Category": "Programming Languages", "Skills": "Python, Java, C++"},
-        {"Category": "Machine Learning", "Skills": "Scikit-learn, TensorFlow, PyTorch"},
-        {"Category": "Web Technologies", "Skills": "HTML, CSS, JavaScript"},
-        {"Category": "Database", "Skills": "SQL, MongoDB"},
+    {"Category": "Programming Languages", "Skills": "Python"},
+    {"Category": "Machine Learning", "Skills": "Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn"},
+    {"Category": "Data Visualization", "Skills": "Plotly, Tableau"},
+    {"Category": "Deep Learning", "Skills": "TensorFlow, Keras, PyTorch"},
+    {"Category": "Web Framework and Database", "Skills": "Flask, Streamlit, SQL, SQLAlchemy"},
+    {"Category": "Version Control", "Skills": "GitHub, AWS, Azure, Docker, CI/CD"}
         # Add more skills categories as needed
-        # {"Category": "Category Name", "Skills": "Skill1, Skill2, Skill3"},
     ]
 
-    # Apply CSS styling to the skills table with a red border and shadow box
+    # Apply custom CSS styling for the skills section
     st.markdown(
         """
         <style>
-            table {
-                border-collapse: collapse;
-                width: 100%;
-                margin-top: 15px;
-                border: 2px solid #FF0000; /* Red border */
+            .skills-container {
+                padding: 15px;
                 border-radius: 10px;
-                box-shadow: 0 4px 8px 0 rgba(255, 0, 0, 0.2), 0 6px 20px 0 rgba(255, 0, 0, 0.19); /* Red shadow box */
+                background-color: #f0f0f0; /* Light gray background color */
+                margin-bottom: 15px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a raised effect */
             }
-            th, td {
-                border: 1px solid #FFFFFF; /* Table border color */
-                padding: 10px;
-                text-align: left;
-                background-color: #1E1E1E; /* Dark background color */
-                color: #FFFFFF; /* Text color */
+            .skills-header {
+                font-size: 20px;
+                color: #333333; /* Dark gray text color */
+                cursor: pointer;
+                margin-bottom: 10px;
+                
             }
-            tr:nth-child(even) {
-                background-color: #333333; /* Darker background color for even rows */
+            .skills-list {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                
             }
-            tr:hover {
-                background-color: #2E2E2E; /* Darker background color for hovered row */
+            .skills-list li {
+                margin-bottom: 5px;
+                font-size: 16px;
+                color: #666666; /* Gray text color */
+                
             }
         </style>
         """, unsafe_allow_html=True
     )
 
-    # Display skills in a table without the index column
-    st.table(pd.DataFrame(skills_data).set_index('Category'))
+    # Iterate through each skill category and display its skills in an expander
+    for skill in skills_data:
+        with st.expander(skill['Category'], expanded=False):  # Collapsed by default
+            skills_list = skill["Skills"].split(', ')
+            for skill_item in skills_list:
+                st.markdown(f"* {skill_item.strip()}", unsafe_allow_html=True)
 
 
 
+import base64
 
+# Function to generate download link
+def get_binary_file_downloader_html(bin_file, file_label='File'):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    bin_str = base64.b64encode(data).decode()
+    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{bin_file}" class="download-link">Download {file_label}</a>'
+    return href
 
+# Custom CSS for the download button and hover effect
+button_style = """
+<style>
+.download-link {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #000000;
+    color: white;
+    padding: 10px 15px;
+    margin: 10px 2px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(144, 238, 144, 0.2), 0 6px 20px 0 rgba(144, 238, 144, 0.19);
+    border: 2px solid #4CAF50; /* Green */
+    transition-duration: 0.4s;
+}
+
+.download-link:hover {
+    background-color: white;
+    color: black;
+}
+</style>
+"""
+
+st.sidebar.markdown(button_style, unsafe_allow_html=True)
+
+# Call to display the button
+download_button = get_binary_file_downloader_html('VATS_BALAR.pdf', 'Resume')
+st.sidebar.markdown(download_button, unsafe_allow_html=True)
